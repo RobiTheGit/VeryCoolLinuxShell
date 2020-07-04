@@ -3,7 +3,7 @@ import sys            # For exiting the program (sys.exit)
 import os             # Lots of things - clearing the screen, running os.system(command) for terminal shell, etc
 import time
 
-version = "0.1.0"
+version = "0.2.0"
 
 width = os.get_terminal_size().columns
 height = os.get_terminal_size().lines

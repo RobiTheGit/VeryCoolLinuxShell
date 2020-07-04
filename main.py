@@ -1,7 +1,6 @@
-import datetime       # For printing the time in the terminal shell
-import sys            # For exiting the program (sys.exit)
-import os             # Lots of things - clearing the screen, running os.system(command) for terminal shell, etc
-import time
+import datetime
+import sys
+import os
 
 version = "0.2.0"
 
@@ -47,7 +46,7 @@ def terminalShell():
         
         if command != "exit":
             # Get input with some ansi escape codes. The code is very unreadable - but is it really a problem since it doesn't often need to be changed?
-            command = input("\033[31;4m" + os.popen("whoami").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
+            command = input("\033[31;4m" + os.popen("whoami").read().split()[0] + "\033[0m@\033[33m" + os.popen("uname -n").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
 
             os.system(command) # Run the command with the os module
 

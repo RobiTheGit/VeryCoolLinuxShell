@@ -46,7 +46,7 @@ def terminalShell():
         
         if command != "exit":
             # Get input with some ansi escape codes. The code is very unreadable - but is it really a problem since it doesn't often need to be changed?
-            command = input("\033[31;4m" + os.popen("whoami").read().split()[0] + "\033[0m@\033[33m" + os.popen("uname -n").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
+            command = input("\033[31;4;1m" + os.popen("whoami").read().split()[0] + "\033[0m@\033[33m" + os.popen("uname -n").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
 
             os.system(command) # Run the command with the os module
 

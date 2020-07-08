@@ -1,6 +1,7 @@
 import datetime
 import sys
 import os
+import wordProcessor
 
 version = "0.2.0"
 
@@ -13,7 +14,7 @@ def printStatusBar(statusBarMessage):
     print(f"\033[0;0H{statusBarMessageANSI}", end="")
 
     # Whitespace at the enf of the statusBarMessage line:
-    for i in range(len(statusBarMessage), os.get_terminal_size().columns):
+    for _ in range(len(statusBarMessage), os.get_terminal_size().columns):
         print(" ", end="")
 
     print("\033[0m", end="") # Reset the colors
@@ -21,7 +22,7 @@ def printStatusBar(statusBarMessage):
     print(f"\033[{os.get_terminal_size().lines};0H", end="") # Put the cursor at the bottom of the page
 
 def openNewProgram():
-    inputMessage = "1. Exit; 2. Restart Terminal: "
+    inputMessage = "1. Exit; 2. Word Processor; 3. Restart: "
     printStatusBar(inputMessage)
 
     option = input("\033[0;{0}H".format(len(inputMessage)+1)) # Put the cursor in the correct place and get input
@@ -31,6 +32,10 @@ def openNewProgram():
         sys.exit()
 
     elif option == "2":
+        wordProcessor.main()
+        terminalShell() # After the program is finished, restart the terminal shell
+
+    elif option == "3":
         terminalShell()
 
 def terminalShell():
@@ -48,15 +53,19 @@ def terminalShell():
             # Get input with some ansi escape codes. The code is very unreadable - but is it really a problem since it doesn't often need to be changed?
             command = input("\033[31;4;1m" + os.popen("whoami").read().split()[0] + "\033[0m@\033[33m" + os.popen("uname -n").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
 
-            if command.split()[0] == "ls":
-                command += " --color=yes"
-
-            os.system(command) # Run the command with the os module
-
-            # For changing directories
             try:
-                if command.split()[0] == "cd":
-                    os.chdir(command.split()[1])
+                if command.split()[0] == "ls":
+                    command += " --color=yes"
+
+                os.system(command) # Run the command with the os module
+
+                # For changing directories
+                try:
+                    if command.split()[0] == "cd":
+                        os.chdir(command.split()[1])
+                except:
+                    pass
+
             except:
                 pass
 

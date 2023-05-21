@@ -1,8 +1,10 @@
 import datetime
+import time
 import sys
 import os
 import wordProcessor
-
+from console.utils import wait_key
+info = open("README.md", "r")
 version = "0.2.0"
 
 width = os.get_terminal_size().columns
@@ -13,7 +15,7 @@ def printStatusBar(statusBarMessage):
     statusBarMessageANSI = "\033[44m" + statusBarMessage
     print(f"\033[0;0H{statusBarMessageANSI}", end="")
 
-    # Whitespace at the enf of the statusBarMessage line:
+    # Whitespace at the end of the statusBarMessage line:
     for _ in range(len(statusBarMessage), os.get_terminal_size().columns):
         print(" ", end="")
 
@@ -52,13 +54,23 @@ def terminalShell():
         if command != "exit":
             # Get input with some ansi escape codes. The code is very unreadable - but is it really a problem since it doesn't often need to be changed?
             command = input("\033[31;4;1m" + os.popen("whoami").read().split()[0] + "\033[0m@\033[33m" + os.popen("uname -n").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
+# Basically, What it does is, (also, the ansi codes are for colors)
+# 1: Runs the command "whoami" which lets the shell tell who is using the main machinne
+# 2: We then run "uname -n" which tells the shell what the name of the system is
+# 3: We then run PWD which gives us our current working directory
+# 4: we add the "~$ " and then after that is where the user types their command in
+
+# The ansi codes are:
+# \033[0m reset colors
+# \033[31;4;1m red
+# \033[33m yellow/orange
+# \033[36m cyan
 
             try:
                 if command.split()[0] == "ls":
                     command += " --color=yes"
 
-                os.system(command) # Run the command with the os module
-
+                os.system(command) # Run the command with the os module, using sh
                 # For changing directories
                 try:
                     if command.split()[0] == "cd":
@@ -74,7 +86,10 @@ def terminalShell():
 
 # Display things like information about the version, etc - maybe press any key to continue
 def bootupScreen():
-    pass
+    os.system("clear")
+    print(f"\033[0mVery Cool Linux Shell\nVersion {version}\n\nInformation:\n\n{info.read()}\n\nPress Any Key To Continue")
+    wait_key()
+    
 
 bootupScreen()
 terminalShell()

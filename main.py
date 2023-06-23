@@ -47,43 +47,10 @@ def terminalShell():
     # Setup:
     os.system("clear")
     print(f"\033[{os.get_terminal_size().lines};0H", end="")
-    print(f"Welcome to this shell. To access the menu at the top, type 'exit'.\nThis is in version {version}")
-    
-    while True:
-        printStatusBar("Time: " + datetime.datetime.now().strftime("%I:%M") + "    Date: " + datetime.datetime.now().strftime("%Y/%m/%d"))
-        
-        if command != "exit":
-            # Get input with some ansi escape codes. The code is very unreadable - but is it really a problem since it doesn't often need to be changed?
-            command = input("\033[31;4;1m" + os.popen("whoami").read().split()[0] + "\033[0m@\033[33m" + os.popen("uname -n").read().split()[0] + "\033[0m~\033[36m" + os.popen("pwd").read().split("\n")[0] + "/\033[0m~$ ")
-# Basically, What it does is, (also, the ansi codes are for colors)
-# 1: Runs the command "whoami" which lets the shell tell who is using the main machinne
-# 2: We then run "uname -n" which tells the shell what the name of the system is
-# 3: We then run PWD which gives us our current working directory
-# 4: we add the "~$ " and then after that is where the user types their command in
-
-# The ansi codes are:
-# \033[0m reset colors
-# \033[31;4;1m red
-# \033[33m yellow/orange
-# \033[36m cyan
-
-            try:
-                if command.split()[0] == "ls":
-                    command += " --color=yes"
-
-                os.system(command) # Run the command with the os module, using sh
-                # For changing directories
-                try:
-                    if command.split()[0] == "cd":
-                        os.chdir(command.split()[1])
-                except:
-                    pass
-
-            except:
-                pass
-
-        else:
-            openNewProgram()
+    print(f"Welcome to this shell. To access the menu, type 'exit'.\nThis is in version {version}")
+    printStatusBar("Time: " + datetime.datetime.now().strftime("%I:%M") + "    Date: " + datetime.datetime.now().strftime("%Y/%m/%d"))
+    os.system("bash")
+    openNewProgram()
 
 # Display things like information about the version, etc - maybe press any key to continue
 def bootupScreen():
